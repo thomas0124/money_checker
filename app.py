@@ -95,8 +95,7 @@ def handle_message(line_reply_event):
         flag3 = 1
 
     if message == "現在の金額を確認する":
-        messages = '金額を' + str(message) + '円減らしました。現在の金額は' + str(money) + '円です。'
-        line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text='見えてますか'))
+        line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text='有効な文字または数値を入力してください。'))
     else:
         line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text='有効な文字または数値を入力してください。'))
 
