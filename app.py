@@ -61,7 +61,7 @@ def handle_message(line_reply_event):
     if message == '収支':
         line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text='いずれを選択してね', quick_reply=QuickReply(items=[
             QuickReplyButton(action=PostbackAction(label="現在の金額を設定する", data="現在の金額を設定する", text="現在の金額を設定する")),
-            QuickReplyButton(action=PostbackAction(label="金額を減増する", data="金額を減増する", text="金額を減増する")),
+            QuickReplyButton(action=PostbackAction(label="金額を増減する", data="金額を増減する", text="金額を増減する")),
             QuickReplyButton(action=PostbackAction(label="現在の金額を確認する", data="現在の金額を確認する", text="現在の金額を確認する"))
         ])))
 
@@ -69,8 +69,8 @@ def handle_message(line_reply_event):
         line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text='金額を入力してください'))
         flag1 = 1
 
-    if message == "金額を減増する":
-        line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text='金額を減増させる方法を選んでください', quick_reply=QuickReply(items=[
+    if message == "金額を増減する":
+        line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text='金額を増減させる方法を選んでください', quick_reply=QuickReply(items=[
             QuickReplyButton(action=MessageAction(label="金額を増やす", text="金額を増やす")),
             QuickReplyButton(action=MessageAction(label="金額を減らす", text="金額を減らす"))
         ])))
