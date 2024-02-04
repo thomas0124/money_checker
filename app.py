@@ -70,7 +70,8 @@ def handle_message(line_reply_event):
         flag1 = 1
         
     if flag1 == 1:
-        line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text=set_money(message)))
+        line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text='ifに入ってるよ')
+        flag1 = 0
     
     if message == "金額を減増する":
         line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text='金額を減増させる方法を選んでください', quick_reply=QuickReply(items=[
