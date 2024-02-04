@@ -61,7 +61,6 @@ def handle_message(line_reply_event):
         ])))
     if message.isdigit():
         money = int(message)
-        line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text=f'ifに入ったよflagは{flag1}, {flag2}, {flag3}'))
         if flag1 == 1:
             line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text=f'現在の金額を {money} 円に設定しました。'))
             flag1 = 0
@@ -74,7 +73,7 @@ def handle_message(line_reply_event):
             line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text=f'金額を {message} 円減らしました。現在の金額は {money} 円です。'))
             flag3 = 0
     if message == "現在の金額を設定する":
-        line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text='金額を入力してください'))
+        line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text=f'金額を入力してください{flag1}'))
         flag1 = 1
     
     if message == "金額を減増する":
@@ -94,7 +93,7 @@ def handle_message(line_reply_event):
     if message == "現在の金額を確認する":
         line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text=f'現在の金額は {money} 円です。'))
     else:
-        line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text='有効な金額を入力してください。'))
+        line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text='有効な文字または数値を入力してください。'))
 
     handler.handle(body, signature)
 
