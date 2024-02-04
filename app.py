@@ -102,6 +102,7 @@ def handle_message(line_reply_event):
         line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text=check_money(money)))
     elif message == "かわいいね":
         line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text='ありがとニャ！'))
+        line_bot_api.reply_message(line_reply_event.reply_token, ImageSendMessage(original_content_url="https://money-checker.onrender.com/cat.jpg", preview_content_url="https://money-checker.onrender.com/cat.jpg"))
     else:
         line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text='有効な文字または数値を入力してください。'))
 
