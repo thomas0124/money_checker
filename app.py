@@ -15,9 +15,14 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage, QuickReply, QuickReplyButton, MessageAction, PostbackAction, FollowEvent
 )
 
+__money__ = 0
 
-def check_money(money):
-    return f'現在の金額は{money}円です。'
+def check_money(message):
+    return f'現在の金額は{message}円です。'
+
+def set_money(message):
+    __money__ = int(message)
+    return f'現在の金額を{__money__}円に設定しました。'
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -31,7 +36,6 @@ LINE_CHANNEL_ACCESS_TOKEN=os.environ["LINE_CHANNEL_ACCESS_TOKEN"]
 handler = WebhookHandler(LINE_CHANNEL_SECRET)
 line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
 
-money = 0
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -64,6 +68,9 @@ def handle_message(line_reply_event):
     if message == "現在の金額を設定する":
         line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text='金額を入力してください'))
         flag1 = 1
+        
+    if flag1 == 1:
+        line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text=set_money(message)))
     
     if message == "金額を減増する":
         line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text='金額を減増させる方法を選んでください', quick_reply=QuickReply(items=[
@@ -80,7 +87,7 @@ def handle_message(line_reply_event):
         flag3 = 1
 
     if message == "現在の金額を確認する":
-        line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text=check_money(money)))
+        line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text=check_money(__money__)))
     else:
         line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text='有効な文字または数値を入力してください。'))
 
