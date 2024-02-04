@@ -54,7 +54,7 @@ def handle_message(line_reply_event):
     message = line_reply_event.message.text.lower()
     if message == '収支':
         line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text='いずれを選択してね', quick_reply=QuickReply(items=[
-            QuickReplyButton(action=PostbackAction(label="現在の金額を設定する", data="現在の金額を設定する", text="現在の金額をを設定する")), #金額を追加する
+            QuickReplyButton(action=PostbackAction(label="現在の金額を設定する", data="現在の金額を設定する", text="現在の金額を設定する")), #金額を追加する
             QuickReplyButton(action=PostbackAction(label="金額を減増する", data="金額を減増する", text="金額を減増する")), #金額を下げる
             QuickReplyButton(action=PostbackAction(label="現在の金額を確認する", data="現在の金額を確認する", text="現在の金額を確認する")) #現在の金額を表示する
         ])))
