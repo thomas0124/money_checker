@@ -63,6 +63,7 @@ def handle_message(line_reply_event):
         money = int(message)
         if flag1 == 1:
             messages = '現在の金額を' + str(money) + '円に設定しました。'
+            line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text="見えてますか"))
             line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text=messages))
             flag1 = 0
         elif flag2 == 1:
