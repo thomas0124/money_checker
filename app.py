@@ -61,12 +61,23 @@ def handle_message(line_reply_event):
         
     if message == "現在の金額を設定する":
         line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text='金額を入力してください'))
-        if message.isdigit():
-            money = int(message)
-            line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text=f'現在の金額を {money} 円に設定しました。'))
-        else:
-            line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text='有効な金額を入力してください。'))
-
+    if message.isdigit():
+        money = int(message)
+        line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text=f'現在の金額を {money} 円に設定しました。'))
+    else:
+        line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text='有効な金額を入力してください。'))
+    
+    if message == "金額を減増する":
+        line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text='金額を減増させる方法を選んでください', quick_reply=QuickReply(items=[
+            QuickReplyButton(action=MessageAction(label="金額を増やす", text="金額を増やす")),
+            QuickReplyButton(action=MessageAction(label="金額を減らす", text="金額を減らす"))
+        ])))
+    if message == "金額を増やす":
+        line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text='金額を入力してください'))
+    if message == "金額を減らす":
+        line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text='金額を入力してください'))
+    if message == "現在の金額を確認する":
+        line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text=f'現在の金額は {money} 円です。'))
 
     handler.handle(body, signature)
 
