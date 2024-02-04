@@ -17,8 +17,8 @@ from linebot.models import (
 
 __money__ = 0
 
-def check_money(message):
-    return f'現在の金額は{message}円です。'
+def check_money():
+    return f'現在の金額は{__money__}円です。'
 
 def set_money(message):
     __money__ = int(message)
@@ -70,7 +70,7 @@ def handle_message(line_reply_event):
         flag1 = 1
         
     if flag1 == 1:
-        line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text='ifに入ってるよ')
+        line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text='ifに入ってるよ'))
         flag1 = 0
     
     if message == "金額を減増する":
@@ -88,7 +88,7 @@ def handle_message(line_reply_event):
         flag3 = 1
 
     if message == "現在の金額を確認する":
-        line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text=check_money(__money__)))
+        line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text=check_money()))
     else:
         line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text='有効な文字または数値を入力してください。'))
 
