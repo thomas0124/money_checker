@@ -15,6 +15,10 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage, QuickReply, QuickReplyButton, MessageAction, PostbackAction, FollowEvent
 )
 
+
+def check_money(money):
+    return f'現在の金額は{money}円です。'
+
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 load_dotenv()
@@ -27,7 +31,7 @@ LINE_CHANNEL_ACCESS_TOKEN=os.environ["LINE_CHANNEL_ACCESS_TOKEN"]
 handler = WebhookHandler(LINE_CHANNEL_SECRET)
 line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
 
-
+money = 0
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -48,8 +52,6 @@ def follow_message(line_follow_event):
     
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(line_reply_event):
-    signature = request.headers['X-Line-Signature']
-    body = request.get_data(as_text=True)
     profile = line_bot_api.get_profile(line_reply_event.source.user_id)
     logger.info(profile)
     message = line_reply_event.message.text.lower()
@@ -59,23 +61,6 @@ def handle_message(line_reply_event):
             QuickReplyButton(action=PostbackAction(label="金額を減増する", data="金額を減増する", text="金額を減増する")), #金額を下げる
             QuickReplyButton(action=PostbackAction(label="現在の金額を確認する", data="現在の金額を確認する", text="現在の金額を確認する")) #現在の金額を表示する
         ])))
-    if message.isdigit():
-        money = int(message)
-        if flag1 == 1:
-            messages = '現在の金額を' + str(money) + '円に設定しました。'
-            line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text="見えてますか"))
-            line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text=messages))
-            flag1 = 0
-        elif flag2 == 1:
-            money += int(message)
-            messages = '金額を' + str(message) + '円増やしました。現在の金額は' + str(money) + ' 円です。'
-            line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text=messages))
-            flag2 = 0
-        elif flag3 == 1:
-            money -= int(message)
-            messages= '金額を' + str(message) + '円減らしました。現在の金額は' +  str(money) + ' 円です。'
-            line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text=messages))
-            flag3 = 0
     if message == "現在の金額を設定する":
         line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text='金額を入力してください'))
         flag1 = 1
@@ -95,10 +80,11 @@ def handle_message(line_reply_event):
         flag3 = 1
 
     if message == "現在の金額を確認する":
-        line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text='見えてますか'))
+        line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text=check_money(money)))
     else:
         line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text='有効な文字または数値を入力してください。'))
 
 
 if __name__ == "__main__":
     app.run()
+
