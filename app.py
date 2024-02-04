@@ -81,7 +81,7 @@ def handle_message(line_reply_event):
     if message == "現在の金額を確認する":
         line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text=f'現在の金額は {money} 円です。'))
         
-    elif message.isdigit():
+    if message.isdigit():
         money = int(message)
         if flag1 == 1:
             line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text=f'現在の金額を {money} 円に設定しました。'))
