@@ -12,7 +12,7 @@ from linebot.exceptions import (
 )
 
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage, QuickReply, QuickReplyButton, MessageAction, PostbackAction, FollowEvent
+    MessageEvent, TextMessage, TextSendMessage, QuickReply, QuickReplyButton, MessageAction, PostbackAction, FollowEvent, ImageSendMessage
 )
 
 def check_money(money):
@@ -31,7 +31,7 @@ handler = WebhookHandler(LINE_CHANNEL_SECRET)
 line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
 
 money = 0
-flag1 = flag2 = flag3 = 0  # Flags to track user state for setting/increasing/decreasing money
+flag1 = flag2 = flag3 = flag4 = flag5 = 0  # Flags to track user state for setting/increasing/decreasing money
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -52,7 +52,7 @@ def follow_message(line_follow_event):
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(line_reply_event):
-    global money, flag1, flag2, flag3
+    global money, flag1, flag2, flag3, flag4, flag5
 
     profile = line_bot_api.get_profile(line_reply_event.source.user_id)
     logger.info(profile)
@@ -78,10 +78,12 @@ def handle_message(line_reply_event):
     if message == "金額を増やす":
         line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text='金額を入力してください'))
         flag2 = 1
+        flag4 = 1
 
     if message == "金額を減らす":
         line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text='金額を入力してください'))
         flag3 = 1
+        flag5 = 1
 
     if flag1 == 1 and message.isdigit():
         money = int(message)
