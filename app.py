@@ -15,6 +15,7 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage, QuickReply, QuickReplyButton, MessageAction, PostbackAction, FollowEvent, ImageSendMessage
 )
 
+
 def check_money(money):
     return f'現在の金額は{money}円です。'
 
@@ -105,7 +106,7 @@ def handle_message(line_reply_event):
         
     elif message == "かわいいね":
         line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text='ありがとニャ！'))
-        line_bot_api.reply_message(line_reply_event.reply_token, ImageSendMessage(original_content_url="https://money-checker.onrender.com/cat.jpg", preview_image_url="https://money-checker.onrender.com/cat.jpg"))
+        line_bot_api.reply_message(line_reply_event.reply_token, ImageSendMessage(original_content_url="https://gyazo.com/9d3324e976b1c65c98b6124993489d70", preview_image_url="https://gyazo.com/9d3324e976b1c65c98b6124993489d70"))
         
     else:
         line_bot_api.reply_message(line_reply_event.reply_token, TextSendMessage(text='有効な文字または数値を入力してください。'))
